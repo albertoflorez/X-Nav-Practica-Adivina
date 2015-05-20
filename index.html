@@ -32,21 +32,21 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="funkyradio-success">
-                                    <input type="radio" name="radio" value="juegos/capitales.json" id="radio1" />
+                                    <input class ="inputPlaces" type="radio" name="radio" value="juegos/capitales.json" id="radio1" />
                                     <label for="radio1">Capitales</label>
                                 </div>
                                 <div class="funkyradio-danger">
-                                    <input type="radio" name="radio" value="juegos/islas.json" id="radio2" />
+                                    <input class ="inputPlaces" type="radio" name="radio" value="juegos/islas.json" id="radio2" />
                                     <label for="radio2">Islas</label>
                                 </div>
                             </div>
                             <div class="col-xs-6">
                                 <div class="funkyradio-warning">
-                                    <input type="radio" name="radio" value="juegos/ciudades.json" id="radio3" />
+                                    <input class ="inputPlaces" type="radio" name="radio" value="juegos/ciudades.json" id="radio3" />
                                     <label for="radio3">Ciudades</label>
                                 </div>
                                 <div class="funkyradio-info">
-                                    <input type="radio" name="radio" value="otros" id="radio6" />
+                                    <input class ="inputPlaces" type="radio" name="radio" value="otros" id="radio6" />
                                     <label for="radio6">Otros</label>
                                 </div>
                             </div>
@@ -57,8 +57,8 @@
                     <button id="abortarJuego" class="btn btn-default red-circle-button">ABORTAR<br>JUEGO<span class="red-circle-greater-than"></span></button>
                     
                     <div id="dificultad">
-                    Dificultad:
-                    <div class="input-group">
+                    Dificultad: <span id="nivel"></span>
+                    <div id ="changeDif" class="input-group">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
                                 <span class="glyphicon glyphicon-minus"></span>
@@ -72,7 +72,8 @@
                         </span>
                     </div>
                     </div>
-
+                    <div id="history" ></div>
+                    
                 </div>
             </div>
             <div class="col-md-6">

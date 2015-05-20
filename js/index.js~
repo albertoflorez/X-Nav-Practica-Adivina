@@ -9,9 +9,10 @@ var coordClick;
 var indiceFoto=0;
 var numFoto=0;
 var otroJuego = false;
+var dificultad;
+var paginaActual = 0;
 
 jQuery(document).ready(function() { 
-    var dificultad;
     $("#reglas").hide();
     $("#botonReglas").click(function(){
         $("#reglas").fadeIn();
@@ -39,8 +40,18 @@ jQuery(document).ready(function() {
             if(indiceLugar<dataJuego.features.length){
                 intervalo = setInterval(function () {jugar(dataJuego.features)}, 3000/dificultad);
             }else{
+                var str = (($('input[name="radio"]:checked', '.funkyradio').val()).split("/"))[1];
+                var nombreJuego = ((str).split("."))[0];
+                var puntos = $("#puntos").html();
+                var nivel = $("#numDificultad").val();
+                console.log("Elnombre del juego es!!!!: " + nombreJuego + " puntos: " + puntos + " en noviel: " + nivel);
+                actualizarHistory(nombreJuego,puntos,nivel);
+                alert("Has acabado el juego!")
+                $("#changeDif").show();
+                $("#nivel").hide();
                 $("#abortarJuego").hide();
                 $("#jugar").fadeIn();
+                $(".inputPlaces").each(function(){$(this).attr('disabled',false);});
                 placeLayer = L.geoJson(dataJuego, {
 		        onEachFeature: popUpName
 	            }).addTo(map);
@@ -60,27 +71,41 @@ jQuery(document).ready(function() {
         mostrarFotos ({"media": {"m":"imagenes/start.jpg"}});
         $("#puntos").html("0");
         $("#distancia").hide();
+        $(".inputPlaces").each(function(){$(this).attr('disabled',false);});
+        $("#changeDif").show();
+        $("#nivel").hide();
     });
     $("#jugar").click(function(){
-        var juego = $('input[name="radio"]:checked', '.funkyradio').val();
-        dificultad = $("#numDificultad").val();
-        if(otroJuego){
-            map.removeLayer(placeLayer);
-            $("#puntos").html("0");
-            $("#distancia").hide();
-        }
-        if(juego){
-            $("#jugar").hide();
-            $("#abortarJuego").fadeIn();
-            cogerInfoFichero(juego);
-            intervalo = setInterval(function () {jugar(dataJuego.features);}, 3000/dificultad);
-            otroJuego = true; 
-        }else{
-            alert("Debes elegir un juego al que jugar");
-        } 
+        clickJugar();
     });
     map.on('click', onMapClick);
+    window.addEventListener('popstate', function(event) {
+        juegoHistorial(event.state);
+    });
 });
+
+function clickJugar(){
+    var juego = $('input[name="radio"]:checked', '.funkyradio').val();
+    if(otroJuego){
+        map.removeLayer(placeLayer);
+        $("#puntos").html("0");
+        $("#distancia").hide();
+    }
+    if(juego){
+        $(".inputPlaces").each(function(){$(this).attr('disabled',true);});
+        $("#jugar").hide();
+        $("#abortarJuego").fadeIn();
+        $("#nivel").show();
+        $("#nivel").html($("#numDificultad").val());
+        $("#changeDif").hide();
+        cogerInfoFichero(juego);
+        dificultad = $("#numDificultad").val();
+        intervalo = setInterval(function () {jugar(dataJuego.features);}, 3000/dificultad);
+        otroJuego = true; 
+    }else{
+        alert("Debes elegir un juego al que jugar");
+    } 
+}
 
 function cogerInfoFichero(fichero){
     $.getJSON(fichero, function(data) {
@@ -165,4 +190,45 @@ function mostrarFotos (item){
     var img = document.getElementById("imagenFLICKR");
     img.src = item.media.m; 
 } 
+
+function juegoHistorial(state){
+    console.log("jugoHistorial!!!");
+    if(state){
+        switch(state.nombre) {
+            case "capitales":
+                document.getElementById("radio1").checked = true;
+                break;
+            case "ciudades":
+                document.getElementById("radio2").checked = true;
+                break;
+            case "ciudades":
+                document.getElementById("radio3").checked = true;
+                break;
+            default:
+                document.getElementById("radio6").checked = true;
+        }
+        $("#numDificultad").val(state.level);
+        clickJugar();
+    }
+}
+
+function historyGo(pagina){
+    var togo = pagina - paginaActual;
+    console.log(togo);
+    paginaActual = togo + 1;
+    history.go(togo);
+}
+
+function actualizarHistory(nombreJuego,puntuacion,nivel){
+    var stateObj={nombre: nombreJuego,
+            fecha: new Date(),
+            puntos:puntuacion,
+            level:nivel,
+    }
+    history.pushState(stateObj,"Adivinanzas: "+paginaActual,"?" + stateObj.nombre + nivel);
+    paginaActual++;
+    html= '<a href="javascript:historyGo('+paginaActual+')" class="list-group-item his">Juego: '+stateObj.nombre+' Puntuación: '+stateObj.puntos+' Fecha:'+stateObj.fecha+'</a>';
+    $("#history").append(html);
+}
+
 
