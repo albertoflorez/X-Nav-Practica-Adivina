@@ -1,0 +1,64 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-3.6795367, 40.4378271]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Madrid"
+		},
+		"id": 1
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-77.0145665, 38.8993488]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Washington"
+		},
+		"id": 2
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [2.3470599, 48.8588589]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Paris"
+		},
+		"id": 3
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [139.710388, 35.673343]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Tokyo"
+		},
+		"id": 4
+            },
+
+        {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [12.5359979, 41.9100711]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Roma"
+		},
+		"id": 4
+            }
+	]
+}

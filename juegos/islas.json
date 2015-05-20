@@ -1,0 +1,64 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-151.7386815, -16.5043774]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Bora Bora"
+		},
+		"id": 1
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-15.8532715, 28.444464]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Canarias"
+		},
+		"id": 2
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [25.4206309, 36.4071539]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Santorini"
+		},
+		"id": 3
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-8.881271, 42.1592415]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Cíes"
+		},
+		"id": 4
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [1.4823935, 38.7061081]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Formentera"
+		},
+		"id": 4
+            }
+	]
+}

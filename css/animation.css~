@@ -1,0 +1,95 @@
+.animation
+        {
+            text-align:center;
+            font-family: Tahoma, Sans-Serif;
+            -ms-animation: anim1 20s linear infinite;
+            -webkit-animation: anim1 20s linear infinite;
+            -o-animation: anim1 20s linear infinite;
+            -moz-animation: anim1 20s linear infinite;
+        }
+    
+    @-ms-keyframes anim1 {
+	    0% {
+		    text-shadow: red 1px 1px, rgba(0, 0, 0, .6) 0px 0px 3px;
+	    }
+	    20% {
+		    text-shadow: yellow 10px 10px 2px, rgba(0, 0, 0, .6) -10px -3px 3px;
+	    }
+	
+	    40% {text-shadow: green 1px 1px 10px, rgba(0, 0, 0, .6) 0px 0px 5px;
+	
+	    }
+	    60% {
+		    text-shadow: blue 50px -10px 5px, rgba(0, 0, 0, .6) 30px -20px 12px;
+	    }
+	    80% {
+		    text-shadow: purple -30px 10px 5px, rgba(0, 0, 0, .6) 10px 10px 12px;
+	    }
+	    100% {
+		    text-shadow: red 1px 1px, rgba(0, 0, 0, .6) 0px 0px 3px;
+	    }
+    }
+
+    @-webkit-keyframes anim1 {
+	    0% {
+		    text-shadow: red 1px 1px, rgba(0, 0, 0, .6) 0px 0px 3px;
+	    }
+	    20% {
+		    text-shadow: yellow 10px 10px 2px, rgba(0, 0, 0, .6) -10px -3px 3px;
+	    }
+	
+	    40% {text-shadow: green 1px 1px 10px, rgba(0, 0, 0, .6) 0px 0px 5px;
+	
+	    }
+	    60% {
+		    text-shadow: blue 50px -10px 5px, rgba(0, 0, 0, .6) 30px -20px 12px;
+	    }
+	    80% {
+		    text-shadow: purple -30px 10px 5px, rgba(0, 0, 0, .6) 10px 10px 12px;
+	    }
+	    100% {
+		    text-shadow: red 1px 1px, rgba(0, 0, 0, .6) 0px 0px 3px;
+	    }
+    }
+    @-o-keyframes anim1 {
+	    0% {
+		    text-shadow: red 1px 1px, rgba(0, 0, 0, .6) 0px 0px 3px;
+	    }
+	    20% {
+		    text-shadow: yellow 10px 10px 2px, rgba(0, 0, 0, .6) -10px -3px 3px;
+	    }
+	
+	    40% {text-shadow: green 1px 1px 10px, rgba(0, 0, 0, .6) 0px 0px 5px;
+	
+	    }
+	    60% {
+		    text-shadow: blue 50px -10px 5px, rgba(0, 0, 0, .6) 30px -20px 12px;
+	    }
+	    80% {
+		    text-shadow: purple -30px 10px 5px, rgba(0, 0, 0, .6) 10px 10px 12px;
+	    }
+	    100% {
+		    text-shadow: red 1px 1px, rgba(0, 0, 0, .6) 0px 0px 3px;
+	    }
+    }
+    @-moz-keyframes anim1 {
+	    0% {
+		    text-shadow: red 1px 1px, rgba(0, 0, 0, .6) 0px 0px 3px;
+	    }
+	    20% {
+		    text-shadow: yellow 10px 10px 2px, rgba(0, 0, 0, .6) -10px -3px 3px;
+	    }
+	
+	    40% {text-shadow: green 1px 1px 10px, rgba(0, 0, 0, .6) 0px 0px 5px;
+	
+	    }
+	    60% {
+		    text-shadow: blue 50px -10px 5px, rgba(0, 0, 0, .6) 30px -20px 12px;
+	    }
+	    80% {
+		    text-shadow: purple -30px 10px 5px, rgba(0, 0, 0, .6) 10px 10px 12px;
+	    }
+	    100% {
+		    text-shadow: red 1px 1px, rgba(0, 0, 0, .6) 0px 0px 3px;
+	    }
+    }

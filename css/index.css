@@ -1,0 +1,112 @@
+@font-face {
+  font-family: "Essays 1743";
+  src: url("f/Essays1743.eot?") format("eot"), url("f/Essays1743.woff") format("woff"), url("f/Essays1743.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Essays 1743";
+  font-weight: bold;
+  src: url("f/Essays1743-bold.eot?") format("eot"), url("f/Essays1743-bold.woff") format("woff"), url("f/Essays1743-bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Essays 1743";
+  font-style: italic;
+  src: url("f/Essays1743-italic.eot?") format("eot"), url("f/Essays1743-italic.woff") format("woff"), url("f/Essays1743-italic.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Essays 1743";
+  font-style: italic;
+  font-weight: bold;
+  src: url("f/Essays1743-bold-italic.eot?") format("eot"), url("f/Essays1743-bold-italic.woff") format("woff"), url("f/Essays1743-bold-italic.ttf") format("truetype");
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Essays 1743", Palatino, "Palatino Linotype", "Book Antiqua", Georgia, "Times New Roman", serif;
+    font-weight: normal;
+    text-shadow: 0 0 1px #667;
+}
+
+html, body, .col-md-6, .row, #controles{
+    height: 100%;
+}
+
+
+#map, #fotos, #controles{
+    width: 100%;
+}
+
+#fotos, #map{
+    height: 50%;
+}
+
+#imagenFLICKR{
+    height: 100%;
+    width: 100%
+}
+
+#marcador{
+    position: absolute;
+    bottom:17px;
+    right: 15px;
+    z-index: 10;
+}
+
+#cajaPuntos{
+    width:160px;
+    color:white;
+    background-color: black;
+    text-align:center;
+    border-radius: 5px;
+}
+
+#verFoto{
+    position: relative;
+    left: 91px;
+}
+
+hr.message-inner-separator{
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 13px;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -ms-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+}
+
+#reglas{
+    position: absolute;
+    left:5%;
+    right: 5%;
+    z-index: 100;
+}
+
+#dificultad{
+    float:right;
+    width:117px;
+}
+/*h1{
+    text-align:center;
+}
+    .transition
+        {
+            text-align:center;
+            font-family: Tahoma, Sans-Serif;
+            text-shadow: 6px 6px 5px #FF99FF;
+            -ms-transition: text-shadow 1s;
+            -moz-transition: text-shadow 1s;
+            -o-transition: text-shadow 1s;
+            -webkit-transition: text-shadow 1s;
+        }
+        .transition:hover
+        {
+            text-shadow: 2px 2px 0px #99FF33;
+        }*/
+
+/*#controles{
+    background-color: blue;
+}
+*/

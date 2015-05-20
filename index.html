@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale =1.0">
+        <title> Adivina dónde está </title>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" >
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/index.css" >
+        <link rel="stylesheet" href="css/radio.css" >
+        <link rel="stylesheet" href="css/animation.css" >
+        <link rel="stylesheet" href="css/botones.css" >
+    </head>
+    <body>
+        <!-- --> 
+        <div class="row">
+            <div class="col-md-6">
+                <div id="controles">
+                    <h1 class="animation">Adivina dónde está</h1>
+        
+                    <div id="reglas" class="alert alert-info">
+                        <button id="cerrarReglas" class="close" type="button">×</button>
+                        <span class="glyphicon glyphicon-info-sign"></span> <strong>Info Message: Reglas del juego</strong>
+                        <hr class="message-inner-separator">
+                        <p>Cuando empiece el juego, el jugador verá una foto durante un cierto tiempo. Cuando termine ese tiempo, será sustuida por otra. Cuando el jugador crea que sabe a qué parte del mundo se refiere la foto, pulsará con el ratón sobre esa parte del mundo y despues sobre "Elegir punto del mapa". En ese momento, se obtendrá una puntuación que será mayor cuanto más grande sea la distancia entre el punto seleccinado y al que se refería la adivinanza y cuantás más fotos se muestren. Acto seguido se mostrarán fotos del siguiente lugar.</p>
+                        <p>La dificultad controlará el tiempo que estará visible cada fotografía antes de ser sustituida por la siguiente, a más dificultad, menos tiempo estará visible cada foto.</p>
+                        <p>Se obtendrá mejor puntuación cuando sea menor.</p>
+                    </div>
+
+                    <div class="funkyradio" >
+                        <h4><strong>Juegos:</strong><a id="botonReglas" class="btn btn-warning btn-outline btn-sm">Reglas del juego</a></h4>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="funkyradio-success">
+                                    <input type="radio" name="radio" value="juegos/capitales.json" id="radio1" />
+                                    <label for="radio1">Capitales</label>
+                                </div>
+                                <div class="funkyradio-danger">
+                                    <input type="radio" name="radio" value="juegos/islas.json" id="radio2" />
+                                    <label for="radio2">Islas</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="funkyradio-warning">
+                                    <input type="radio" name="radio" value="juegos/ciudades.json" id="radio3" />
+                                    <label for="radio3">Ciudades</label>
+                                </div>
+                                <div class="funkyradio-info">
+                                    <input type="radio" name="radio" value="otros" id="radio6" />
+                                    <label for="radio6">Otros</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="jugar" class="btn btn-default green-circle-button">JUGAR<span class="green-circle-greater-than"></span></button>
+                    <button id="abortarJuego" class="btn btn-default red-circle-button">ABORTAR<br>JUEGO<span class="red-circle-greater-than"></span></button>
+                    
+                    <div id="dificultad">
+                    Dificultad:
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </button>
+                        </span>
+                        <input id="numDificultad" type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="10">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </span>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="fotos">  
+                    <img id="imagenFLICKR" src="imagenes/start.jpg" alt="Foto Flickr">                 
+                </div>
+                <div id="map"> </div>
+                <div id="marcador">
+                    <button id="elegirPunto" type="button" class="btn btn-primary">Elegir punto del mapa</button> 
+                    <div id="cajaPuntos"><span id="puntos">0</span> puntos<br><span id="distancia"></span></div>
+                    <!--<a id="verFoto" href="#imagenFLICKR"> <button type="button" class="btn btn-primary btn-sm">Ver fotos</button> </a> -->
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js" type="text/javascript"></script>
+        <script src="js/botonesDificultad.js" type="text/javascript"></script>
+        <script src="js/index.js" type="text/javascript"></script>
+
+    </body>
+</html>
+

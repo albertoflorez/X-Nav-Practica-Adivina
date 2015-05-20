@@ -1,0 +1,52 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [40.4378271, -3.6795367]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Madrid"
+		},
+		"id": 1
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [38.8993488, -77.0145665]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Washington"
+		},
+		"id": 2
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [48.8588589,2.3470599]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Paris"
+		},
+		"id": 3
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [35.673343,139.710388]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Tokio"
+		},
+		"id": 4
+            }
+	]
+}
