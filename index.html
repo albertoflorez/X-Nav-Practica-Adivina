@@ -17,7 +17,14 @@
             <div class="col-md-6">
                 <div id="controles">
                     <h1 class="animation">Adivina dónde está</h1>
-        
+
+                    <div id="historyAlert" class="alert alert-warning">
+                        <button id="cerrarHistory" class="close" type="button">×</button>
+                        <span class="glyphicon glyphicon-header"></span> <strong>Historia de juegos pasados</strong>
+                        <hr class="message-inner-separator">
+                        <div id="history" ></div>
+                    </div>
+
                     <div id="reglas" class="alert alert-info">
                         <button id="cerrarReglas" class="close" type="button">×</button>
                         <span class="glyphicon glyphicon-info-sign"></span> <strong>Info Message: Reglas del juego</strong>
@@ -28,7 +35,7 @@
                     </div>
 
                     <div class="funkyradio" >
-                        <h4><strong>Juegos:</strong><a id="botonReglas" class="btn btn-warning btn-outline btn-sm">Reglas del juego</a></h4>
+                        <h4><strong>Juegos:</strong><a id="botonReglas" class="btn btn-info btn-outline btn-sm">Reglas del juego</a></h4>
                         <div class="row">
                             <div class="col-xs-6">
                                 <div class="funkyradio-success">
@@ -72,8 +79,10 @@
                         </span>
                     </div>
                     </div>
-                    <div id="history" ></div>
-                    
+
+                    <div id="botonHistory" ><a class="btn btn-warning btn-outline btn-lg center-block">Historia de juegos pasados</a>
+                    </div>
+
                 </div>
             </div>
             <div class="col-md-6">

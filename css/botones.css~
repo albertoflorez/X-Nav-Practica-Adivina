@@ -29,7 +29,7 @@
 }
 .red-circle-button:hover {
     background-color: #E60000;
-	border-color: #00E600;   	
+	border-color: #FF0000;   	
 }
 
 .green-circle-button:visited, .red-circle-button:visited {
@@ -43,18 +43,29 @@
     background-color: #00CF00;	
 }
 
+#botonReglas{
+    float:right;
+}
+
+#botonHistory{
+    margin: 5px auto;   
+}
 
 .btn-outline {
-    float:right;
     background-color: transparent;
     color: inherit;
     transition: all .5s;
+}
+
+.btn-info.btn-outline {
+    color: #5bc0de;
 }
 
 .btn-warning.btn-outline {
     color: #f0ad4e;
 }
 
+.btn-info.btn-outline:hover,
 .btn-warning.btn-outline:hover{
     color: #fff;
 }

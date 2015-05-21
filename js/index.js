@@ -11,16 +11,27 @@ var numFoto=0;
 var otroJuego = false;
 var dificultad;
 var paginaActual = 0;
+var fromHistory = false;
+//var fromHistoryAntes = false;
+var numPaginas = 0;
 
 jQuery(document).ready(function() { 
     $("#reglas").hide();
+    $("#historyAlert").hide();
     $("#botonReglas").click(function(){
         $("#reglas").fadeIn();
     })
     $("#cerrarReglas").click(function(){
         $("#reglas").hide();
     })
+    $("#botonHistory a").click(function(){
+        $("#historyAlert").fadeIn();
+    })
+    $("#cerrarHistory").click(function(){
+        $("#historyAlert").hide();
+    })
     $("#abortarJuego").hide();
+    $("#elegirPunto").hide();
     map = L.map('map');
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -40,18 +51,21 @@ jQuery(document).ready(function() {
             if(indiceLugar<dataJuego.features.length){
                 intervalo = setInterval(function () {jugar(dataJuego.features)}, 3000/dificultad);
             }else{
-                var str = (($('input[name="radio"]:checked', '.funkyradio').val()).split("/"))[1];
-                var nombreJuego = ((str).split("."))[0];
-                var puntos = $("#puntos").html();
-                var nivel = $("#numDificultad").val();
-                console.log("Elnombre del juego es!!!!: " + nombreJuego + " puntos: " + puntos + " en noviel: " + nivel);
-                actualizarHistory(nombreJuego,puntos,nivel);
+                if(!fromHistory){
+                    var str = (($('input[name="radio"]:checked', '.funkyradio').val()).split("/"))[1];
+                    var nombreJuego = ((str).split("."))[0];
+                    var puntos = $("#puntos").html();
+                    var nivel = $("#numDificultad").val();
+                    console.log("Elnombre del juego es!!!!: " + nombreJuego + " puntos: " + puntos + " en noviel: " + nivel);
+                    actualizarHistory(nombreJuego,puntos,nivel);
+                }
                 alert("Has acabado el juego!")
                 $("#changeDif").show();
                 $("#nivel").hide();
                 $("#abortarJuego").hide();
                 $("#jugar").fadeIn();
                 $(".inputPlaces").each(function(){$(this).attr('disabled',false);});
+                $("#elegirPunto").hide();
                 placeLayer = L.geoJson(dataJuego, {
 		        onEachFeature: popUpName
 	            }).addTo(map);
@@ -74,8 +88,12 @@ jQuery(document).ready(function() {
         $(".inputPlaces").each(function(){$(this).attr('disabled',false);});
         $("#changeDif").show();
         $("#nivel").hide();
+        $("#elegirPunto").hide();
+        //fromHistory = fromHistoryAntes;//para poner si se viene de haber entrado en history y saber si se tiene que crear nueva entrada de history o no en la siguiente partida
     });
     $("#jugar").click(function(){
+        //fromHistoryAntes = fromHistory;
+        fromHistory = false;
         clickJugar();
     });
     map.on('click', onMapClick);
@@ -98,6 +116,7 @@ function clickJugar(){
         $("#nivel").show();
         $("#nivel").html($("#numDificultad").val());
         $("#changeDif").hide();
+        $("#elegirPunto").fadeIn();
         cogerInfoFichero(juego);
         dificultad = $("#numDificultad").val();
         intervalo = setInterval(function () {jugar(dataJuego.features);}, 3000/dificultad);
@@ -167,7 +186,7 @@ function jugar(features){
             indiceFoto = 0;
         }
         mostrarFotos(dataFlickr.items[indiceFoto]);
-        console.log(indiceFoto)
+        console.log("indice foto: " + indiceFoto)
         indiceFoto++;
         numFoto++;
     }
@@ -180,7 +199,7 @@ function cogerInfoFlickr(features){
             dataFlickr = data;
             console.log("MOSTRANDO FOTOS CON LA ETIQUETA: " + features[indiceLugar].properties.Name);
             mostrarFotos(data.items[indiceFoto]);
-            console.log(indiceFoto)
+            console.log("indice foto: " + indiceFoto)
             indiceFoto++;
             numFoto++;
         });
@@ -198,7 +217,7 @@ function juegoHistorial(state){
             case "capitales":
                 document.getElementById("radio1").checked = true;
                 break;
-            case "ciudades":
+            case "islas":
                 document.getElementById("radio2").checked = true;
                 break;
             case "ciudades":
@@ -213,10 +232,16 @@ function juegoHistorial(state){
 }
 
 function historyGo(pagina){
+    $("#historyAlert").hide();
     var togo = pagina - paginaActual;
-    console.log(togo);
-    paginaActual = togo + 1;
-    history.go(togo);
+    console.log("togo es: " + togo);
+    fromHistory = true;
+    if(togo!=0){
+        paginaActual = pagina;
+        history.go(togo);
+    }else{
+        juegoHistorial(history.state);
+    }
 }
 
 function actualizarHistory(nombreJuego,puntuacion,nivel){
@@ -225,11 +250,16 @@ function actualizarHistory(nombreJuego,puntuacion,nivel){
             puntos:puntuacion,
             level:nivel,
     }
-    history.pushState(stateObj,"Adivinanzas: "+paginaActual,"?" + stateObj.nombre + nivel);
+    history.pushState(stateObj,"Adivinanzas","?" + stateObj.nombre + nivel);
+    if(!(paginaActual == numPaginas)){
+        for (i = paginaActual+1; i <= numPaginas; i++) { 
+            $("#juego" + i).remove();
+        }
+        numPaginas = paginaActual;
+    }
     paginaActual++;
-    html= '<a href="javascript:historyGo('+paginaActual+')" class="list-group-item his">Juego: '+stateObj.nombre+' Puntuación: '+stateObj.puntos+' Fecha:'+stateObj.fecha+'</a>';
+    numPaginas ++;
+    html= '<a id="juego' + paginaActual + '" href="javascript:historyGo('+paginaActual+')" class="list-group-item his">Juego: '+stateObj.nombre+' Nivel: '+stateObj.level+' Puntuación: '+stateObj.puntos+' Fecha:'+((stateObj.fecha.toString()).split("GMT"))[0]+'</a>';
     $("#history").append(html);
 }
-//PONER LA FECHA QUITANDO EL GMT Y VER QU PASA CUANDO SE HACERHISTORY.GO(1)
-//ADEMAS VER SI SE PUEDE PONER UN SCROLL PARA PODER VER TODO EL HISTORY EN PNTALLA MOVIL
 
