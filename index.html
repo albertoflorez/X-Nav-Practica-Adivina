@@ -13,8 +13,8 @@
     </head>
     <body>
         <!-- --> 
-        <div class="row">
-            <div class="col-md-6">
+        <section class="row">
+            <article class="col-md-6">
                 <div id="controles">
                     <h1 class="animation">Adivina dónde está</h1>
 
@@ -65,27 +65,31 @@
                     
                     <div id="dificultad">
                     Dificultad: <span id="nivel"></span>
-                    <div id ="changeDif" class="input-group">
+                    <div class="changeDif input-group">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                            <button type="button" class="difBtn btn btn-default btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
                                 <span class="glyphicon glyphicon-minus"></span>
                             </button>
                         </span>
                         <input id="numDificultad" type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="10">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[1]">
+                            <button type="button" class="difBtn btn btn-default btn-number" data-type="plus" data-field="quant[1]">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </span>
+                    </div>
+                    <div class="changeDif">
+                        <input id="myRange" type="range" name="points" value="1" min="1" max="10">
                     </div>
                     </div>
 
                     <div id="botonHistory" ><a class="btn btn-warning btn-outline btn-lg center-block">Historia de juegos pasados</a>
                     </div>
+                    <footer>&copy; Aplicación "Adivina dónde está"<br> realizada por Alberto Flórez Pagés en 2015 </footer>
 
                 </div>
-            </div>
-            <div class="col-md-6">
+            </article>
+            <article class="col-md-6">
                 <div id="fotos">  
                     <img id="imagenFLICKR" src="imagenes/start.jpg" alt="Foto Flickr">                 
                 </div>
@@ -95,11 +99,10 @@
                     <div id="cajaPuntos"><span id="puntos">0</span> puntos<br><span id="distancia"></span></div>
                     <!--<a id="verFoto" href="#imagenFLICKR"> <button type="button" class="btn btn-primary btn-sm">Ver fotos</button> </a> -->
                 </div>
-            </div>
-        </div>
+            </article>
+        </section>
 
         <script src="https://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
-        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js" type="text/javascript"></script>
         <script src="js/botonesDificultad.js" type="text/javascript"></script>

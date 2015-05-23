@@ -2,17 +2,19 @@ var intervalo;
 var indiceLugar = 0;
 var dataJuego;
 var map;
-var lugar= {properties:{"media": {"Name":""}}};
-var dataFlickr = {items:[{"media": {"m":"imagenes/start.jpg"}}]};
+//var lugar= {properties:{"media": {"Name":""}}};
+var lugar;
+//var dataFlickr = {items:[{"media": {"m":"imagenes/start.jpg"}}]};//a veces tarda más en asignarse esta variable que en empezar el juego, así no tenemos errores.
+var dataFlickr;
 var popup = L.popup();
 var coordClick;
-var indiceFoto=0;
-var numFoto=0;
-var otroJuego = false;
+var indiceFoto=0;//indice de la foto en el array de flickr
+var numFoto=0;//numero de fotos que se han visto para ese lugar
+var otroJuego = false;//nos sirve para quitar las etiquetas de otro juegodel mapa 
 var dificultad;
 var paginaActual = 0;
 var fromHistory = false;
-var fromHistoryAntes = false;
+//var fromHistoryAntes = false;
 var numPaginas = 0;
 
 jQuery(document).ready(function() { 
@@ -32,6 +34,18 @@ jQuery(document).ready(function() {
     })
     $("#abortarJuego").hide();
     $("#elegirPunto").hide();
+    var dif = document.getElementById("numDificultad");
+    var range = document.getElementById("myRange");
+    range.addEventListener("change", function(){
+        dif.value = this.value;
+    });
+    dif.addEventListener("change", function(){
+        range.value = this.value;
+    });
+    $(".difBtn").click(function(){
+        document.getElementById("myRange").value = $("#numDificultad").val();
+    })
+
     map = L.map('map');
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -51,6 +65,7 @@ jQuery(document).ready(function() {
             if(indiceLugar<dataJuego.features.length){
                 intervalo = setInterval(function () {jugar(dataJuego.features)}, 3000/dificultad);
             }else{
+                //compruebo que si el link ya esta en history (porque venimos de jugar ese juego) no lo vuelvo a añadir
                 if(!fromHistory){
                     var str = (($('input[name="radio"]:checked', '.funkyradio').val()).split("/"))[1];
                     var nombreJuego = ((str).split("."))[0];
@@ -81,7 +96,7 @@ jQuery(document).ready(function() {
         $("#jugar").fadeIn();     
         indiceFoto=0;
         numFoto=0;
-        otroJuego = false;
+        otroJuego = false;//no se ha terminado el juego, las etiquetas no estan
         mostrarFotos ({"media": {"m":"imagenes/start.jpg"}});
         $("#puntos").html("0");
         $("#distancia").hide();
@@ -89,10 +104,10 @@ jQuery(document).ready(function() {
         $("#changeDif").show();
         $("#nivel").hide();
         $("#elegirPunto").hide();
-        fromHistory = fromHistoryAntes;//para poner si se viene de haber entrado en history y saber si se tiene que crear nueva entrada de history o no en la siguiente partida
+        //fromHistory = fromHistoryAntes;//para poner si se viene de haber entrado en history y saber si se tiene que crear nueva entrada de history o no en la siguiente partida
     });
     $("#jugar").click(function(){
-        fromHistoryAntes = fromHistory;
+        //fromHistoryAntes = fromHistory;
         fromHistory = false;
         clickJugar();
     });
@@ -102,14 +117,15 @@ jQuery(document).ready(function() {
     });
 });
 
+//funcion que se ejecuta para empezar un juego
 function clickJugar(){
     var juego = $('input[name="radio"]:checked', '.funkyradio').val();
-    if(otroJuego){
+    if(otroJuego){//quitamos las etiquetas que existan en el mapa de juegos anteriores
         map.removeLayer(placeLayer);
         $("#puntos").html("0");
         $("#distancia").hide();
     }
-    if(juego){
+    if(juego){//si se ha escogido un juego se empieza
         $(".inputPlaces").each(function(){$(this).attr('disabled',true);});
         $("#jugar").hide();
         $("#abortarJuego").fadeIn();
@@ -126,12 +142,14 @@ function clickJugar(){
     } 
 }
 
+//Se coge la info del juego que queremos
 function cogerInfoFichero(fichero){
     $.getJSON(fichero, function(data) {
         dataJuego = data;
 	});
 }
 
+//cuando hago click en el mapa me marca la lat y long
 function onMapClick(e) {
     popup
         .setLatLng(e.latlng)
@@ -156,15 +174,14 @@ function calcularDist(lat1, lon1, lat2, lon2)
   return d.toFixed(3);                      //Retorna tres decimales
 }
 
+//calculo de puntos (puntos = distancia por numero de fotos observadas)
 function calcularPuntos(dist){
     var antes = $("#puntos").html();
     var ahora = Math.floor(parseFloat(antes) + (parseFloat(dist) * numFoto) );
     $("#puntos").html(ahora);
 }
 
-
-
-
+//cuando termina el juego, muestro los lugares que habia que adivinar
 function popUpName(feature, layer) {
 	// does this feature have a property named popupContent?
 	if (feature.properties && feature.properties.Name) {
@@ -172,16 +189,17 @@ function popUpName(feature, layer) {
     }
 }
 
+//esta es la funcion que se va a repetir cada vez para mostrar las diferentes fotos
 function jugar(features){
     //Compruebo que el lugar que he buscado como etiqueta en flickr anteriormente es el mismo para no volver a realizar la busqueda
     console.log("features!!!: " + features);
-    if(lugar.properties.Name != features[indiceLugar].properties.Name){
+    if((!lugar) || (lugar.properties.Name != features[indiceLugar].properties.Name)){
         console.log("busco en flickr: " + features[indiceLugar].properties.Name);
         lugar = features[indiceLugar];
         indiceFoto = 0;
         numFoto = 0;
         cogerInfoFlickr(features);
-    }else{
+    }else if(dataFlickr){
         if(indiceFoto == dataFlickr.items.length){
             indiceFoto = 0;
         }
@@ -192,6 +210,7 @@ function jugar(features){
     }
 }
 
+//esta funcion me sirve para coger la info de flickr
 function cogerInfoFlickr(features){
     var flickrAPI = "http://api.flickr.com/services/feeds/photos_public.gne?tagmode=any&format=json&jsoncallback=?";
         $.getJSON(flickrAPI, {tags: features[indiceLugar].properties.Name})
@@ -205,11 +224,13 @@ function cogerInfoFlickr(features){
         });
 }
 
+//solo muestra la foto en la pagina
 function mostrarFotos (item){
     var img = document.getElementById("imagenFLICKR");
     img.src = item.media.m; 
 } 
 
+//pongo el juego escogido y empiezo a jugar
 function juegoHistorial(state){
     console.log("jugoHistorial!!!");
     if(state){
@@ -237,6 +258,7 @@ function historyGo(pagina){
     console.log("togo es: " + togo);
     fromHistory = true;
     if(togo!=0){
+        //la pagina actual es la pagina del juego que hemos pinchado
         paginaActual = pagina;
         history.go(togo);
     }else{
@@ -251,6 +273,7 @@ function actualizarHistory(nombreJuego,puntuacion,nivel){
             level:nivel,
     }
     history.pushState(stateObj,"Adivinanzas","?" + stateObj.nombre + nivel);
+    //cuando hago pushState, las paginas siguientes desaparecen y solo se mantienen las anteriores, así que borro la posibilidad de acceder a datos futuros al juego elegido
     if(!(paginaActual == numPaginas)){
         for (i = paginaActual+1; i <= numPaginas; i++) { 
             $("#juego" + i).remove();
