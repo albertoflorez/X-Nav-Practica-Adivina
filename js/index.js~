@@ -205,7 +205,7 @@ function listarInfo(err, contents){
         for (var i = 0, len = contents.length; i < len; i++) {
             ficheros.push(contents[i].name);
         };
-        ficherosRepo.html("<p>Aquí puede seleccionar el fichero que quiere leer o escribir; o puede crear uno nuevo:</p>" + "<ul id='ficheros'><li>" + ficheros.join("</li><li>") + "</li></ul>");
+        ficherosRepo.html("<p>Aquí puede seleccionar el fichero que quiere leer:</p>" + "<ul id='ficheros'><li>" + ficheros.join("</li><li>") + "</li></ul>");
         $("#ficheros li").click(leerFichero);
     }
 }
@@ -316,6 +316,7 @@ function juegoHistorial(state){
                 break;
             default:
                 document.getElementById("radio6").checked = true;
+                dataJuego = state.datosJson;
         }
         $("#numDificultad").val(state.level);
         clickJugar();
