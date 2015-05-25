@@ -1,11 +1,11 @@
 {
     "name": "Adivina Dónde Está",
     "description": "Juego práctica final DAT",
-    "launch_path": "/index.html",
+    "launch_path": "/X-Nav-Practica-Adivina/index.html",
     "icons": {
-        "16": "/imagenes/map-icon16.png",
-        "48": "/imagenes/map-icon48.png",
-        "128": "/imagenes/map-icon128.png"
+        "16": "/X-Nav-Practica-Adivina/imagenes/map-icon16.png",
+        "48": "/X-Nav-Practica-Adivina/imagenes/map-icon48.png",
+        "128": "/X-Nav-Practica-Adivina/imagenes/map-icon128.png"
     },
     "developer": {
         "name": "Alberto Florez Pages",
