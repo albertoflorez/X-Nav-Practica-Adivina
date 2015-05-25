@@ -23,5 +23,5 @@ Detalles del enunciado en el programa de la asignatura.
   * Utilización de las nuevas funcionalidesde de formularios de HTML5: para elegir la dificultad del juego
   * Utilización del protocolo de autorización OAuth 2.0 en la API de github.
   * La aplicación funciona en firefox OS
-*URL video funcionalidad básica: https://www.youtube.com/watch?v=anhsXLoi8gA
-*URL video funcionalidad optativa: https://www.youtube.com/watch?v=96zciSfs5PU
+* URL video funcionalidad básica: https://www.youtube.com/watch?v=anhsXLoi8gA
+* URL video funcionalidad optativa: https://www.youtube.com/watch?v=96zciSfs5PU
