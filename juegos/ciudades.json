@@ -1,0 +1,64 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-71.0571571, 42.3133735]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Boston"
+		},
+		"id": 1
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [2.1487679, 41.39479]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Barcelona"
+		},
+		"id": 2
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-87.7321555, 41.8337329]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Chicago"
+		},
+		"id": 3
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [-0.1015987, 51.5286416]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "London"
+		},
+		"id": 4
+            },
+
+            {
+		"geometry": {
+                    "type": "Point",
+                    "coordinates": [4.8986142, 52.3747158]
+		},
+		"type": "Feature",
+		"properties": {
+                    "Name": "Amsterdam"
+		},
+		"id": 4
+            }
+	]
+}

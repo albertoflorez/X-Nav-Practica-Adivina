@@ -17,6 +17,7 @@
     position: relative;
     line-height: 2.5em;
     text-indent: 3.25em;
+    margin-top: 1.5em;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -65,4 +66,8 @@
 .funkyradio-warning input[type="radio"]:checked ~ label:before{
     color: #fff;
     background-color: #f0ad4e;
+}
+.funkyradio-info input[type="radio"]:checked ~ label:before{
+    color: #fff;
+    background-color: #5bc0de;
 }

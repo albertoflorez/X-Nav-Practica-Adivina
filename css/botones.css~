@@ -43,16 +43,18 @@
     background-color: #00CF00;	
 }
 
+
+
 #botonReglas{
     float:right;
 }
 
 #botonHistory{
-    margin: 5px auto;   
+    margin: 10px auto;   
 }
 
 .btn-outline {
-    background-color: transparent;
+    background-color: #F9F9F9;
     color: inherit;
     transition: all .5s;
 }

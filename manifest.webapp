@@ -1,0 +1,23 @@
+{
+    "name": "Adivina Dónde Está",
+    "description": "Juego práctica final DAT",
+    "launch_path": "/index.html",
+    "icons": {
+        "16": "/imagenes/map-icon16.png",
+        "48": "/imagenes/map-icon48.png",
+        "128": "/imagenes/map-icon128.png"
+    },
+    "developer": {
+        "name": "Alberto Florez Pages",
+        "url": "https://github.com/albertoflorez"
+    },
+    "default_locale": "en",
+    "permissions": {
+        "geolocation": {
+            "description": "Access to your position"
+        }
+    },
+    "chrome": { 
+        "navigation": true 
+    }
+}

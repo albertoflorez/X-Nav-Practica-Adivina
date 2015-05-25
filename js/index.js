@@ -1,25 +1,29 @@
-var intervalo;
-var indiceLugar = 0;
-var dataJuego;
-var map;
-//var lugar= {properties:{"media": {"Name":""}}};
-var lugar;
-//var dataFlickr = {items:[{"media": {"m":"imagenes/start.jpg"}}]};//a veces tarda más en asignarse esta variable que en empezar el juego, así no tenemos errores.
-var dataFlickr;
-var popup = L.popup();
-var coordClick;
-var indiceFoto=0;//indice de la foto en el array de flickr
-var numFoto=0;//numero de fotos que se han visto para ese lugar
-var otroJuego = false;//nos sirve para quitar las etiquetas de otro juegodel mapa 
-var dificultad;
-var paginaActual = 0;
-var fromHistory = false;
-//var fromHistoryAntes = false;
-var numPaginas = 0;
+    var intervalo;
+    var indiceLugar= 0; //indice de lugar en el juego
+    var dataJuego;
+    var map;
+    var lugar;
+    var dataFlickr;
+    var popup = L.popup();
+    var coordClick;
+    var indiceFoto=0;//indice de la foto en el array de flickr
+    var numFoto=0;//numero de fotos que se han visto para ese lugar
+    var otroJuego = false;//nos sirve para quitar las etiquetas de otro juegodel mapa 
+    var dificultad;
+    var paginaActual = 0; //nos sirve para saber el estado en el que estamos.
+    var numPaginas = 0;//nos sirve para saber el numero total de estados que tenemos y poder hacer las cuentas para moverse a partir del history
+    var noJugar = false;//variable que nos sirve para saber si tenemos que jugar cuando nos movemos por el history
+    var github;
+    var mirepo;
 
 jQuery(document).ready(function() { 
     $("#reglas").hide();
     $("#historyAlert").hide();
+    $("#otrosJson").hide();
+    $("#done").hide();
+    $("#done").click(function(){
+        $("#otrosJson").hide();
+    })
     $("#botonReglas").click(function(){
         $("#reglas").fadeIn();
     })
@@ -31,6 +35,9 @@ jQuery(document).ready(function() {
     })
     $("#cerrarHistory").click(function(){
         $("#historyAlert").hide();
+    })
+    $("#cerrarOtrosJson").click(function(){
+        $("#otrosJson").hide();
     })
     $("#abortarJuego").hide();
     $("#elegirPunto").hide();
@@ -65,15 +72,12 @@ jQuery(document).ready(function() {
             if(indiceLugar<dataJuego.features.length){
                 intervalo = setInterval(function () {jugar(dataJuego.features)}, 3000/dificultad);
             }else{
-                //compruebo que si el link ya esta en history (porque venimos de jugar ese juego) no lo vuelvo a añadir
-                if(!fromHistory){
-                    var str = (($('input[name="radio"]:checked', '.funkyradio').val()).split("/"))[1];
-                    var nombreJuego = ((str).split("."))[0];
-                    var puntos = $("#puntos").html();
-                    var nivel = $("#numDificultad").val();
-                    console.log("Elnombre del juego es!!!!: " + nombreJuego + " puntos: " + puntos + " en noviel: " + nivel);
-                    actualizarHistory(nombreJuego,puntos,nivel);
-                }
+                var str = (($('input[name="radio"]:checked', '.funkyradio').val()).split("/"))[1];
+                var nombreJuego = ((str).split("."))[0];
+                var puntos = $("#puntos").html();
+                var nivel = $("#numDificultad").val();
+                console.log("Elnombre del juego es!!!!: " + nombreJuego + " puntos: " + puntos + " en noviel: " + nivel);
+                actualizarHistory(nombreJuego,puntos,nivel);
                 alert("Has acabado el juego!")
                 $(".changeDif").show();
                 $("#nivel").hide();
@@ -85,6 +89,7 @@ jQuery(document).ready(function() {
 		        onEachFeature: popUpName
 	            }).addTo(map);
                 indiceLugar = 0;
+                mostrarFotos ({"media": {"m":"imagenes/start.png"}});
             }  
         }else{
             alert("tienes que elegir un punto en el mapa!");
@@ -96,25 +101,31 @@ jQuery(document).ready(function() {
         $("#jugar").fadeIn();     
         indiceFoto=0;
         numFoto=0;
+        indiceLugar = 0;
         otroJuego = false;//no se ha terminado el juego, las etiquetas no estan
-        mostrarFotos ({"media": {"m":"imagenes/start.jpg"}});
+        mostrarFotos ({"media": {"m":"imagenes/start.png"}});
         $("#puntos").html("0");
         $("#distancia").hide();
         $(".inputPlaces").each(function(){$(this).attr('disabled',false);});
         $(".changeDif").show();
         $("#nivel").hide();
         $("#elegirPunto").hide();
-        //fromHistory = fromHistoryAntes;//para poner si se viene de haber entrado en history y saber si se tiene que crear nueva entrada de history o no en la siguiente partida
     });
     $("#jugar").click(function(){
-        //fromHistoryAntes = fromHistory;
-        fromHistory = false;
         clickJugar();
     });
     map.on('click', onMapClick);
     window.addEventListener('popstate', function(event) {
-        juegoHistorial(event.state);
+        if(!noJugar){
+            juegoHistorial(event.state);
+        }
+        noJugar = false;
     });
+    $("#radio6").click(function(){
+        cogerInfoGithub();
+        $("#otrosJson").fadeIn();
+    });
+    $("#CogerUsuario").click(cogerUsuario);
 });
 
 //funcion que se ejecuta para empezar un juego
@@ -133,7 +144,9 @@ function clickJugar(){
         $("#nivel").html($("#numDificultad").val());
         $(".changeDif").hide();
         $("#elegirPunto").fadeIn();
-        cogerInfoFichero(juego);
+        if(juego != "juegos/otros.json"){
+            cogerInfoFichero(juego);
+        }
         dificultad = $("#numDificultad").val();
         intervalo = setInterval(function () {jugar(dataJuego.features);}, 3000/dificultad);
         otroJuego = true; 
@@ -149,6 +162,64 @@ function cogerInfoFichero(fichero){
 	});
 }
 
+function cogerInfoGithub(){
+    hello.init({
+        github : 'ab19246dc65c63df54c4'
+    },{
+        redirect_uri : 'redirect.html',
+        oauth_proxy : 'https://auth-server.herokuapp.com/proxy'
+    });
+    access = hello("github");
+    access.login({response_type: 'code'}).then( function(){
+	    auth = hello("github").getAuthResponse();
+	    token = auth.access_token;
+	    github = new Github({
+	        token: token,
+	        auth: "oauth"
+	    });
+    }, function( e ){
+	    alert('Signin error: ' + e.error.message);
+    });
+}
+
+function cogerUsuario(){
+    var username = $("#NombreUsuario").val();
+    var reponame = "X-Nav-Practica-Adivina";
+    mirepo = github.getRepo(username, reponame);
+    mirepo.show(mostrarRepo);
+}
+
+function mostrarRepo(err, repo) {
+    if(err){
+        $("#ficherosRepo").html("Ha habido un error!<br>"+err);
+    }
+    mirepo.contents('master', 'juegos', listarInfo);
+}
+
+function listarInfo(err, contents){
+    var ficherosRepo = $("#ficherosRepo");
+    if (err) {
+	    ficherosRepo.html("<p>Código de error: " + err.error + "</p>");
+    } else {
+        var ficheros = [];
+        for (var i = 0, len = contents.length; i < len; i++) {
+            ficheros.push(contents[i].name);
+        };
+        ficherosRepo.html("<p>Aquí puede seleccionar el fichero que quiere leer o escribir; o puede crear uno nuevo:</p>" + "<ul id='ficheros'><li>" + ficheros.join("</li><li>") + "</li></ul>");
+        $("#ficheros li").click(leerFichero);
+    }
+}
+
+function leerFichero() {
+    element = $(this);
+    element.css("color", "red");
+    var filename = "juegos/"+element.text();
+    mirepo.read('master', filename, function(err, data) {
+	    dataJuego = JSON.parse(data);
+    });
+    $("#done").show();
+};
+
 //cuando hago click en el mapa me marca la lat y long
 function onMapClick(e) {
     popup
@@ -162,16 +233,15 @@ function onMapClick(e) {
 
 
 //función para calcular distancia entre puntos en un mapa con coordenadas http://www.mapanet.eu/Resources/Script-Distance.htm
-function calcularDist(lat1, lon1, lat2, lon2)
-  {
-  rad = function(x) {return x*Math.PI/180;}
-  var R     = 6378.137;                          //Radio de la tierra en km
-  var dLat  = rad( lat2 - lat1 );
-  var dLong = rad( lon2 - lon1 );
-  var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLong/2) * Math.sin(dLong/2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  var d = R * c;
-  return d.toFixed(3);                      //Retorna tres decimales
+function calcularDist(lat1, lon1, lat2, lon2){
+    rad = function(x) {return x*Math.PI/180;}
+    var R     = 6378.137;                          //Radio de la tierra en km
+    var dLat  = rad( lat2 - lat1 );
+    var dLong = rad( lon2 - lon1 );
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLong/2) * Math.sin(dLong/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d.toFixed(3);                      //Retorna tres decimales
 }
 
 //calculo de puntos (puntos = distancia por numero de fotos observadas)
@@ -185,7 +255,7 @@ function calcularPuntos(dist){
 function popUpName(feature, layer) {
 	// does this feature have a property named popupContent?
 	if (feature.properties && feature.properties.Name) {
-        //layer.bindPopup(feature.properties.Name);
+        layer.bindPopup(feature.properties.Name);
     }
 }
 
@@ -246,6 +316,7 @@ function juegoHistorial(state){
                 break;
             default:
                 document.getElementById("radio6").checked = true;
+                dataJuego = state.datosJson;
         }
         $("#numDificultad").val(state.level);
         clickJugar();
@@ -256,7 +327,6 @@ function historyGo(pagina){
     $("#historyAlert").hide();
     var togo = pagina - paginaActual;
     console.log("togo es: " + togo);
-    fromHistory = true;
     if(togo!=0){
         //la pagina actual es la pagina del juego que hemos pinchado
         paginaActual = pagina;
@@ -267,19 +337,20 @@ function historyGo(pagina){
 }
 
 function actualizarHistory(nombreJuego,puntuacion,nivel){
+    if(paginaActual != numPaginas){
+        noJugar = true;//no queremos que se juegue, ya que vamos a movernos por el historial para que no se borren las partidas (mirar siguiente comentario)
+        var togo = numPaginas - paginaActual;
+        history.go(togo);
+        paginaActual = numPaginas;
+    }
+    //cuando hago pushState, las páginas siguientes desaparecen y sólo se mantienen las anteriores, por eso hago el go para volver a la última página y que no se borre con el pushState realizado a continuación
     var stateObj={nombre: nombreJuego,
             fecha: new Date(),
             puntos:puntuacion,
             level:nivel,
     }
+    if (nombreJuego == "otros"){stateObj.datosJson = dataJuego;}
     history.pushState(stateObj,"Adivinanzas","?" + stateObj.nombre + nivel);
-    //cuando hago pushState, las paginas siguientes desaparecen y solo se mantienen las anteriores, así que borro la posibilidad de acceder a datos futuros al juego elegido
-    if(!(paginaActual == numPaginas)){
-        for (i = paginaActual+1; i <= numPaginas; i++) { 
-            $("#juego" + i).remove();
-        }
-        numPaginas = paginaActual;
-    }
     paginaActual++;
     numPaginas ++;
     html= '<a id="juego' + paginaActual + '" href="javascript:historyGo('+paginaActual+')" class="list-group-item his">Juego: '+stateObj.nombre+' Nivel: '+stateObj.level+' Puntuación: '+stateObj.puntos+' Fecha:'+((stateObj.fecha.toString()).split("GMT"))[0]+'</a>';
