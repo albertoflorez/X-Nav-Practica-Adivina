@@ -17,6 +17,7 @@
     var mirepo;
 
 jQuery(document).ready(function() { 
+    //aquí vamos a esconder los botones que no nos interesan, además expresar las normas de cuando deben aparecer y también que hacer cuando ocurren eventos
     $("#reglas").hide();
     $("#historyAlert").hide();
     $("#otrosJson").hide();
@@ -59,6 +60,7 @@ jQuery(document).ready(function() {
     }).addTo(map);
     map.setView([40.2839, -3.8215], 2);
     $("#elegirPunto").click(function(){
+        //esto es lo que ocurre cuando se hacer click en elegir punto (se podría separar esta función)
         if(coordClick){
             clearInterval(intervalo);
             console.log("se ha parado el intervalo")
@@ -96,6 +98,7 @@ jQuery(document).ready(function() {
         }
     });
     $("#abortarJuego").click(function(){
+        //cuando se hace click en abortar juego se reinicia todo a su estado original 
         clearInterval(intervalo);
         $("#abortarJuego").hide();
         $("#jugar").fadeIn();     
@@ -128,7 +131,7 @@ jQuery(document).ready(function() {
     $("#CogerUsuario").click(cogerUsuario);
 });
 
-//funcion que se ejecuta para empezar un juego
+//funcion que se ejecuta para empezar un juego al hacer click en jugar
 function clickJugar(){
     var juego = $('input[name="radio"]:checked', '.funkyradio').val();
     if(otroJuego){//quitamos las etiquetas que existan en el mapa de juegos anteriores
@@ -162,6 +165,7 @@ function cogerInfoFichero(fichero){
 	});
 }
 
+//permite que se haga login en github con OAUTH 2.0
 function cogerInfoGithub(){
     hello.init({
         github : 'ab19246dc65c63df54c4'
@@ -182,6 +186,7 @@ function cogerInfoGithub(){
     });
 }
 
+//El coger el repo del usuario elegido
 function cogerUsuario(){
     var username = $("#NombreUsuario").val();
     var reponame = "X-Nav-Practica-Adivina";
@@ -189,6 +194,7 @@ function cogerUsuario(){
     mirepo.show(mostrarRepo);
 }
 
+//se prepara para leer los contenidos del repositorio y se llama a listar los contenidos de lo que esta en juegos dentro del repositorio
 function mostrarRepo(err, repo) {
     if(err){
         $("#ficherosRepo").html("Ha habido un error!<br>"+err);
@@ -196,6 +202,7 @@ function mostrarRepo(err, repo) {
     mirepo.contents('master', 'juegos', listarInfo);
 }
 
+//se va a listar los json de juego
 function listarInfo(err, contents){
     var ficherosRepo = $("#ficherosRepo");
     if (err) {
@@ -210,6 +217,7 @@ function listarInfo(err, contents){
     }
 }
 
+//Se lee el fichero json elegido y se asigna a los datos del juego
 function leerFichero() {
     element = $(this);
     element.css("color", "red");
@@ -323,6 +331,7 @@ function juegoHistorial(state){
     }
 }
 
+//función que me permite moverme por el historial del navegador haciendo que se acceda al juego seleccionado
 function historyGo(pagina){
     $("#historyAlert").hide();
     var togo = pagina - paginaActual;
@@ -336,6 +345,7 @@ function historyGo(pagina){
     }
 }
 
+//me permite añadir a la historia de juegos el juego jugado
 function actualizarHistory(nombreJuego,puntuacion,nivel){
     if(paginaActual != numPaginas){
         noJugar = true;//no queremos que se juegue, ya que vamos a movernos por el historial para que no se borren las partidas (mirar siguiente comentario)
