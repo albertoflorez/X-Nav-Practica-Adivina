@@ -1,7 +1,7 @@
 {
     "name": "Adivina Dónde Está",
     "description": "Juego práctica final DAT",
-    "launch_path": "/X-Nav-Practica-Adivina/index.html",
+    "launch_path": "/index.html",
     "icons": {
         "16": "/imagenes/map-icon16.png",
         "48": "/imagenes/map-icon48.png",
