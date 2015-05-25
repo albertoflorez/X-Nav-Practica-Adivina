@@ -1,0 +1,9 @@
+{
+    "name": "Adivina Dónde Está App",
+    "package_path" : "http://albertoflorez.github.io/X-Nav-Practica-Adivina/Comprimido/app.zip",
+    "version": "1",
+    "developer": {
+        "name": "Alberto Florez Pages",
+        "url": "https://github.com/albertoflorez"
+    }
+}

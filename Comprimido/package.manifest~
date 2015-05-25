@@ -1,0 +1,9 @@
+{
+    "name": "My_Locator",
+    "package_path" : "http://albertoflorez.github.io/X-Nav-5.11.2-OpenWebApps/mapAppComprimido/map.zip",
+    "version": "1",
+    "developer": {
+        "name": "Alberto Florez Pages",
+        "url": "https://github.com/albertoflorez"
+    }
+}
